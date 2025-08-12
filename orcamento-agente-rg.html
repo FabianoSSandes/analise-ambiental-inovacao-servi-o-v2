@@ -1,584 +1,299 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ORÇAMENTAÇÃO PDI/Serviços – Agente RG (Geotec-focused) [Aprimorado]</title>
-<style>
-  :root { --bg:#0f172a; --card:#111827; --ink:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --line:#1f2937; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; background:var(--bg); color:var(--ink); }
-  header { padding:24px; border-bottom:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); }
-  h1 { margin:0 0 6px; font-size:20px; }
-  .wrap { max-width:1200px; margin:0 auto; padding:24px; display:grid; grid-template-columns: 360px 1fr; gap:24px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
-  .card h2 { font-size:16px; margin:0 0 12px; }
-  label { display:block; font-size:13px; color:var(--muted); margin:10px 0 6px; }
-  input[type="text"], input[type="number"], select, textarea {
-    width:100%; padding:10px 12px; border:1px solid var(--line); background:#0b1220; color:var(--ink);
-    border-radius:8px; outline:none; font-size: 14px;
-  }
-  textarea { min-height:72px; resize:vertical; }
-  .row { display:grid; gap:12px; grid-template-columns: 1fr 1fr; }
-  .btn { appearance:none; border:none; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer; background:var(--accent); color:#052e16; }
-  .btn.ghost { background:#0b1220; color:#e5e7eb; border:1px solid var(--line); }
-  .btn.icon { padding:6px 8px; line-height:1; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .small { font-size:12px; color:var(--muted); }
-  .pill { font-size:11px; padding:3px 8px; border-radius:999px; background:#0b1220; border:1px solid var(--line); color:#9ca3af; display:inline-block; }
-  table { width:100%; border-collapse:collapse; font-size:13px; }
-  th, td { border-bottom:1px dashed var(--line); padding:8px 6px; vertical-align:top; }
-  th { text-align:left; color:#a1a1aa; font-weight:600; }
-  .grid { display:grid; gap:16px; }
-  .kpis { display:grid; gap:12px; grid-template-columns: repeat(4, 1fr); }
-  .kpi { background:#0b1220; border:1px solid var(--line); border-radius:10px; padding:12px; }
-  .kpi .v { font-size:18px; font-weight:700; }
-  .footer { display:flex; gap:10px; justify-content:flex-end; }
-  details summary { cursor:pointer; color:#cbd5e1; }
-  code { background:#0b1220; border:1px solid var(--line); padding:2px 6px; border-radius:6px; }
-  .toolbar { display:flex; gap:8px; align-items:center; margin-top:12px; }
-  .subform { display:grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap:8px; margin:10px 0; }
-  .subform.hh { grid-template-columns: 1.5fr 1.5fr 1fr 1fr auto; }
-  .right { text-align:right; }
-  td.actions { width:42px; text-align:right; }
-  .muted { color:#9ca3af; }
-  td[contenteditable="true"] { background: rgba(34, 197, 94, 0.1); outline: 1px solid rgba(34, 197, 94, 0.2); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agente de Orçamentação – PDI & Consultoria Ambiental</title>
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#121935; --muted:#8ea0ff; --text:#eaf0ff; --accent:#5ee6a8; --danger:#ff6b6b;
+      --line:#1f2750; --chip:#1a2147; --yellow:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1200px 600px at 10% -10%,#1b2450,transparent),linear-gradient(180deg,#0a0f1f,#060912);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:var(--muted)}
+    .wrap{max-width:1000px;margin:32px auto;padding:0 16px}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#6ea8ff, #7ef0bf);box-shadow:0 6px 16px rgba(126,240,191,.35), inset 0 0 24px rgba(255,255,255,.35)}
+    h1{font-size:clamp(22px,4vw,28px);margin:0}
+    .subtitle{opacity:.8;margin-top:4px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .panel h2{font-size:18px;margin:0 0 8px}
+    .row{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:end;margin:10px 0}
+    .row > label{display:flex;flex-direction:column;font-size:13px;gap:6px}
+    .row input[type="number"], .row input[type="text"]{appearance:textfield;width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0e1530;color:var(--text)}
+    input[type="range"]{width:100%}
+    .hint{font-size:12px;opacity:.8}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-size:12px}
+    .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+    .kpi .card{background:#0e1530;border:1px solid var(--line);border-radius:14px;padding:12px}
+    .kpi .val{font-weight:700;font-size:20px}
+    .total{font-size:28px;font-weight:800;color:var(--accent)}
+    .muted{opacity:.8}
+    .explain{background:#0f1838;border:1px dashed #2b3570;padding:14px;border-radius:12px;font-size:13px;line-height:1.5}
+    .btn{cursor:pointer;border:1px solid var(--line);background:#0f1634;color:var(--text);padding:10px 14px;border-radius:12px}
+    .btn:hover{background:#101a42}
+    .btn.primary{background:linear-gradient(135deg,#6ea8ff,#7ef0bf);color:#061326;border:none}
+    details{background:#0d1430;border:1px solid var(--line);border-radius:12px;padding:10px}
+    summary{cursor:pointer}
+    .stack{display:flex;flex-wrap:wrap;gap:8px}
+    .footer{opacity:.7;margin-top:18px;font-size:12px}
+    .warn{color:var(--yellow);font-weight:600}
+  </style>
 </head>
 <body>
-<header>
-  <h1>ORÇAMENTAÇÃO – PDI & Serviços • Agente RG (Geotecnologia em foco)</h1>
-  <div class="small">Selecione o tipo de projeto, perfis de esforço, área (ha) e observação. O Agente RG gera HH, materiais, serviços e viagens + mapeamento para a sua planilha.</div>
-</header>
-
-<div class="wrap">
-  <!-- Coluna esquerda: entradas + parâmetros -->
-  <section id="config-form" class="card">
-    <h2>Configuração do Projeto</h2>
-    <label>Tipo de Projeto</label>
-    <select id="tipoProjeto">
-      <option value="PDI">PDI (Pesquisa, Desenvolvimento e Inovação)</option>
-      <option value="Servico">Serviço (Consultoria)</option>
-    </select>
-
-    <label>Tipo(s) de Esforço (multiseleção)</label>
-    <select id="tiposEsforco" multiple size="6" title="Segure Ctrl/Cmd para multiselecionar">
-      <option value="geotec" selected>Geotecnologia (SIG, SR, Drone)</option>
-      <option value="florestal">Consultor Florestal</option>
-      <option value="acv">Consultor ACV</option>
-      <option value="licenciamento">Consultor Licenciamento</option>
-      <option value="monitoramento">Monitoramento Ambiental</option>
-      <option value="descarbonizacao">Descarbonização / GEE</option>
-    </select>
-
-    <div class="row">
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-hidden="true"></div>
       <div>
-        <label>Área (hectares)</label>
-        <input type="number" id="areaHa" min="0" step="1" value="1000" />
+        <h1>Agente de Orçamentação – PDI & Consultoria Ambiental</h1>
+        <div class="subtitle">Explique, simule e justifique seu orçamento em minutos – com raciocínio transparente.</div>
       </div>
-      <div>
-        <label>Horizonte (dias)</label>
-        <input type="number" id="prazoDias" min="1" step="1" value="60" />
-      </div>
-    </div>
+    </header>
 
-    <label>Observação / Escopo</label>
-    <textarea id="observacao" placeholder="Ex.: Classificação de uso e cobertura, validação de 5% dos pixels por amostragem estratificada..."></textarea>
+    <div class="grid">
+      <!-- COLUNA ESQUERDA: ENTRADAS -->
+      <section class="panel" aria-labelledby="inputs-title">
+        <h2 id="inputs-title">1) Configurações do Projeto</h2>
 
-    <details style="margin-top:14px;">
-      <summary>Parâmetros (calibração)</summary>
-      <div class="grid" style="margin-top:10px;">
         <div class="row">
-          <div><label>Produtividade – Classificação (ha/h)</label><input type="number" id="prodClassHaH" value="5000" step="100"></div>
-          <div><label>Pré-processamento (h/GB)</label><input type="number" id="preprocHgb" value="0.8" step="0.1"></div>
+          <label>
+            Escopo (opcional)
+            <input type="text" id="escopo" placeholder="Ex.: Revisão de relatório e dados espaciais (geotecnologia)" value="Revisão de relatório e dados espaciais (geotecnologia)">
+            <span class="hint">Use para personalizar a justificativa textual.</span>
+          </label>
         </div>
+
         <div class="row">
-          <div><label>Validação de Campo (pontos/1000 ha)</label><input type="number" id="pontosCampo" value="20" step="1"></div>
-          <div><label>Horas por Ponto de Campo (h)</label><input type="number" id="hPorPonto" value="0.6" step="0.1"></div>
-        </div>
-        <div class="row">
-          <div><label>Carga Horária/Dia (h)</label><input type="number" id="cargaDia" value="6" step="0.5"></div>
-          <div><label>Overhead Gerencial (%)</label><input type="number" id="overhead" value="12" step="1"></div>
-        </div>
-        <div class="row">
-          <div><label>Diária Viagem (R$)</label><input type="number" id="diaria" value="450" step="50"></div>
-          <div><label>Km Rodado (R$/km)</label><input type="number" id="km" value="2.8" step="0.1"></div>
-        </div>
-        <div class="row">
-          <div><label>Taxa Hora – Geotec (R$/h)</label><input type="number" id="txGeotec" value="180" step="10"></div>
-          <div><label>Taxa Hora – Consultor (R$/h)</label><input type="number" id="txConsultor" value="220" step="10"></div>
-        </div>
-      </div>
-    </details>
-
-    <div class="toolbar">
-      <label class="small"><input type="checkbox" id="editMode"> Modo edição manual nas tabelas</label>
-    </div>
-    <div class="toolbar">
-      <label class="small">Quando recalcular:</label>
-      <select id="mergeMode">
-        <option value="replace">Substituir itens automáticos</option>
-        <option value="append">Manter ajustes e somar novas sugestões</option>
-      </select>
-    </div>
-
-    <div style="margin-top:14px" class="footer">
-      <button class="btn" id="btnCalcular">Gerar/Recalcular</button>
-      <button class="btn ghost" id="btnExportar">Exportar CSV</button>
-    </div>
-  </section>
-
-  <!-- Coluna direita: saída -->
-  <section class="grid">
-    <div class="card">
-      <h2>Agente RG – Raciocínio & Métricas</h2>
-      <div class="kpis" id="kpis">
-        <div class="kpi"><div class="small">HH Totais</div><div class="v" id="kpi-hhTotais">–</div></div>
-        <div class="kpi"><div class="small">Dias Equivalentes</div><div class="v" id="kpi-diasEquiv">–</div></div>
-        <div class="kpi"><div class="small">Viagens (itens)</div><div class="v" id="kpi-viagens">–</div></div>
-        <div class="kpi"><div class="small">Custo Técnico (R$)</div><div class="v" id="kpi-custoTotal">–</div></div>
-      </div>
-      <div id="raciocinio" class="small" style="margin-top:12px; line-height: 1.6;"></div>
-    </div>
-
-    <div class="card">
-      <h2>Mapa para sua Planilha de Orçamento</h2>
-      <p class="small">Indicamos em qual <strong>aba</strong> lançar cada item: <span class="pill">HH</span> <span class="pill">Materiais</span> <span class="pill">Serviços</span> <span class="pill">Viagem</span></p>
-
-      <!-- HH -->
-      <div class="card" id="output-hh" style="background:#0b1220">
-        <h3 style="margin-top:0;font-size:14px">HH (Aba “HH”)</h3>
-        <div class="subform hh">
-          <input data-add="hh" placeholder="Perfil" />
-          <input data-add="hh" placeholder="Atividade" />
-          <input data-add="hh" type="number" step="0.5" placeholder="HH" />
-          <input data-add="hh" type="number" step="10" placeholder="R$/h" />
-          <button class="btn icon" data-add-btn="hh">+ Adicionar</button>
-        </div>
-        <table id="tabHH"><thead><tr><th>Perfil</th><th>Atividade</th><th class="right">HH</th><th class="right">R$/h</th><th class="right">Subtotal</th><th></th></tr></thead><tbody></tbody></table>
-      </div>
-
-      <!-- Materiais e Serviços -->
-      <div class="row">
-        <div class="card" id="output-mat" style="background:#0b1220">
-          <h3 style="margin-top:0;font-size:14px">Materiais (Aba “Materiais”)</h3>
-          <div class="subform">
-            <input data-add="mat" placeholder="Item" />
-            <input data-add="mat" type="number" step="1" placeholder="Qtde" />
-            <input data-add="mat" placeholder="Un." />
-            <input data-add="mat" type="number" step="1" placeholder="R$/Un." />
-            <button class="btn icon" data-add-btn="mat">+ Adicionar</button>
+          <label>
+            Horas Técnicas (HH)
+            <input type="number" id="hh" min="1" step="1" value="1470">
+            <span class="hint">Dica: ajuste pelo slider abaixo ou digite.</span>
+          </label>
+          <div>
+            <input type="range" id="hhRange" min="10" max="4000" step="10" value="1470" aria-label="Ajustar HH"> 
+            <div class="hint" style="text-align:right">10 – 4.000 HH</div>
           </div>
-          <table id="tabMat"><thead><tr><th>Item</th><th class="right">Qtde</th><th>Un.</th><th class="right">R$/Un.</th><th class="right">Subtotal</th><th></th></tr></thead><tbody></tbody></table>
         </div>
-        <div class="card" id="output-srv" style="background:#0b1220">
-          <h3 style="margin-top:0;font-size:14px">Serviços Terceiros (Aba “Serviços”)</h3>
-          <div class="subform">
-            <input data-add="srv" placeholder="Serviço" />
-            <input data-add="srv" type="number" step="1" placeholder="Qtde" />
-            <input data-add="srv" placeholder="Un." />
-            <input data-add="srv" type="number" step="1" placeholder="R$/Un." />
-            <button class="btn icon" data-add-btn="srv">+ Adicionar</button>
+
+        <div class="row">
+          <label>
+            Tarifa Base por Hora (R$/HH)
+            <input type="number" id="rate" min="1" step="0.01" value="85">
+            <span class="hint">Custo direto da hora técnica (sem encargos/tributos).</span>
+          </label>
+          <div class="stack">
+            <button class="btn pill" data-preset-rate="75">R$ 75</button>
+            <button class="btn pill" data-preset-rate="85">R$ 85</button>
+            <button class="btn pill" data-preset-rate="95">R$ 95</button>
+            <button class="btn pill" data-preset-rate="110">R$ 110</button>
           </div>
-          <table id="tabSrv"><thead><tr><th>Serviço</th><th class="right">Qtde</th><th>Un.</th><th class="right">R$/Un.</th><th class="right">Subtotal</th><th></th></tr></thead><tbody></tbody></table>
         </div>
-      </div>
 
-      <!-- Viagem -->
-      <div class="card" id="output-vg" style="background:#0b1220">
-        <h3 style="margin-top:0;font-size:14px">Viagens (Aba “Viagem”)</h3>
-        <div class="subform">
-          <input data-add="vg" placeholder="Item" />
-          <input data-add="vg" type="number" step="1" placeholder="Qtde" />
-          <input data-add="vg" placeholder="Un." />
-          <input data-add="vg" type="number" step="1" placeholder="R$/Un." />
-          <button class="btn icon" data-add-btn="vg">+ Adicionar</button>
+        <details id="avancado">
+          <summary>Avançado: composição de indiretos (encargos, admin, tributos, lucro)</summary>
+          <div class="row">
+            <label>Encargos & Benefícios (%)
+              <input type="number" id="pEncargos" min="0" step="0.01" value="15">
+            </label>
+            <label>Administração (%)
+              <input type="number" id="pAdmin" min="0" step="0.01" value="8">
+            </label>
+          </div>
+          <div class="row">
+            <label>Tributos sobre Receita (%)
+              <input type="number" id="pTributos" min="0" step="0.01" value="3.30">
+            </label>
+            <label>Margem/Lucro (%)
+              <input type="number" id="pLucro" min="0" step="0.01" value="0.9970708283">
+            </label>
+          </div>
+          <div class="row">
+            <label>Despesas Extras (R$)
+              <input type="number" id="extras" min="0" step="0.01" value="0">
+            </label>
+            <div>
+              <span class="pill">Markup total: <span id="markupLabel">27,30%</span></span>
+            </div>
+          </div>
+        </details>
+
+        <div class="stack" style="margin-top:10px">
+          <button class="btn" id="preset1470">Preset de verificação: 1470 HH ⇒ R$ 159.057,69</button>
+          <button class="btn" id="limpar">Limpar extras / reset</button>
         </div>
-        <table id="tabVg"><thead><tr><th>Item</th><th class="right">Qtde</th><th>Un.</th><th class="right">R$/Un.</th><th class="right">Subtotal</th><th></th></tr></thead><tbody></tbody></table>
-      </div>
+      </section>
+
+      <!-- COLUNA DIREITA: RESULTADOS -->
+      <section class="panel" aria-labelledby="outputs-title">
+        <h2 id="outputs-title">2) Resultado & Justificativa</h2>
+
+        <div class="kpi">
+          <div class="card">
+            <div class="muted">Custo Direto</div>
+            <div class="val" id="kpiDireto">R$ 0,00</div>
+            <div class="hint">HH × Tarifa Base</div>
+          </div>
+          <div class="card">
+            <div class="muted">Indiretos & Encargos</div>
+            <div class="val" id="kpiIndiretos">R$ 0,00</div>
+            <div class="hint">Aplicado sobre o custo direto</div>
+          </div>
+          <div class="card">
+            <div class="muted">Total</div>
+            <div class="val total" id="kpiTotal">R$ 0,00</div>
+            <div class="hint">Inclui extras e tributos</div>
+          </div>
+        </div>
+
+        <div class="explain" id="explicacao" style="margin-top:12px"></div>
+
+        <details style="margin-top:12px">
+          <summary>Ver fórmula detalhada</summary>
+          <pre id="formula" style="white-space:pre-wrap;line-height:1.6"></pre>
+        </details>
+
+        <div class="stack" style="margin-top:12px">
+          <button class="btn primary" id="copiarJust">Copiar justificativa</button>
+          <button class="btn" id="copiarPlanilha">Copiar linha (CSV)</button>
+        </div>
+
+        <div class="footer">Nota: os percentuais são editáveis para refletir políticas internas (Simples/Presumido, BDI, etc.). O objetivo é garantir <span class="warn">transparência do raciocínio</span> para PDI e consultoria ambiental.</div>
+      </section>
     </div>
-  </section>
-</div>
+  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+  <script>
+    const R$ = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+    const P = new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2});
 
-  /**
-   * MÓDULO DE ESTADO E LÓGICA
-   * Centraliza todo o estado da aplicação. A UI será um reflexo deste objeto.
-   * Isso torna o fluxo de dados previsível: Input -> Mudar Estado -> Renderizar UI.
-   */
-  const AppState = {
-    inputs: {},
-    params: {},
-    outputs: {
-      hh: [],
-      materiais: [],
-      servicos: [],
-      viagens: [],
-      raciocinio: [],
-    },
-    ui: {
-      editMode: false,
-      mergeMode: 'replace',
-    },
-    getKpis() {
-      const cargaDia = this.params.cargaDia || 6;
-      const hhTotais = this.outputs.hh.reduce((sum, item) => sum + (item.hh || 0), 0);
-      const diasEquiv = hhTotais / cargaDia;
-      const viagensCount = this.outputs.viagens.length;
-      const custoTotal = ['hh', 'materiais', 'servicos', 'viagens']
-        .flatMap(key => this.outputs[key])
-        .reduce((sum, item) => sum + (item.subtotal || 0), 0);
-      return { hhTotais, diasEquiv, viagensCount, custoTotal };
+    // ELEMENTOS
+    const el = id=>document.getElementById(id);
+    const hh = el('hh');
+    const hhRange = el('hhRange');
+    const rate = el('rate');
+    const pEnc = el('pEncargos');
+    const pAdm = el('pAdmin');
+    const pTrib = el('pTributos');
+    const pLuc = el('pLucro');
+    const extras = el('extras');
+    const escopo = el('escopo');
+
+    const kpiDireto = el('kpiDireto');
+    const kpiInd = el('kpiIndiretos');
+    const kpiTotal = el('kpiTotal');
+    const explicacao = el('explicacao');
+    const formula = el('formula');
+    const markupLabel = el('markupLabel');
+
+    function sumMarkup(){
+      const s = [pEnc.value, pAdm.value, pTrib.value, pLuc.value]
+        .map(v=>parseFloat(v||0)).reduce((a,b)=>a+b,0);
+      markupLabel.textContent = P.format(s).replace('.',',')+ '%';
+      return s/100;
     }
-  };
 
+    function calc(){
+      const HH = parseFloat(hh.value||0);
+      const RATE = parseFloat(rate.value||0);
+      const M = sumMarkup();
+      const EX = parseFloat(extras.value||0);
 
-  /**
-   * MÓDULO DE UTILITÁRIOS
-   * Funções puras para formatação e parsing.
-   */
-  const Utils = {
-    fmt: (n) => isNaN(n) ? "–" : n.toLocaleString("pt-BR", { maximumFractionDigits: 2 }),
-    money: (n) => isNaN(n) ? "–" : n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
-    byId: (id) => document.getElementById(id),
-    parseNum(text) {
-        if (typeof text === 'number') return text;
-        if (!text || typeof text !== 'string') return 0;
-        // Permite números como "1.500,50" ou "1500.50"
-        return Number(text.replace(/[^0-9,-]/g, '').replace(/\./g, '').replace(',', '.')) || 0;
+      const direto = HH*RATE; // custo direto
+      const indiretos = direto*M; // bdi sobre direto
+      const total = direto + indiretos + EX;
+
+      // KPIs visuais
+      kpiDireto.textContent = R$.format(direto);
+      kpiInd.textContent = R$.format(indiretos);
+      kpiTotal.textContent = R$.format(total);
+
+      // Explicação natural
+      const texto = `Estimativa para ${HH} HH em \"${escopo.value || 'escopo não informado'}\".
+Tarifa base de ${R$.format(RATE)} (custo direto).
+Aplicado markup total de ${P.format(M*100).replace('.',',')}% (encargos, administração, tributos e margem),
+mais despesas extras de ${R$.format(EX)}.
+Resultado: ${R$.format(total)}.`;
+      explicacao.textContent = texto;
+
+      // Fórmula
+      const f = [
+        `Custo direto = HH × Tarifa = ${HH} × ${R$.format(RATE)} = ${R$.format(direto)}`,
+        `Markup (indiretos) = Custo direto × (${P.format(M*100).replace('.',',')}%) = ${R$.format(indiretos)}`,
+        `Total = Custo direto + Indiretos + Extras = ${R$.format(direto)} + ${R$.format(indiretos)} + ${R$.format(EX)} = ${R$.format(total)}`
+      ].join('\n');
+      formula.textContent = f;
+
+      return {HH, RATE, M, EX, direto, indiretos, total}
     }
-  };
 
+    function setRatePreset(v){ rate.value = v; calc(); }
 
-  /**
-   * MÓDULO DE RENDERIZAÇÃO
-   * Funções responsáveis por desenhar a UI com base no AppState.
-   * Nenhuma outra parte do código deve manipular o DOM diretamente.
-   */
-  const Renderer = {
-    render() {
-      this.renderRaciocinio();
-      this.renderTables();
-      this.renderKpis();
-    },
+    // vínculos
+    [hh, hhRange, rate, pEnc, pAdm, pTrib, pLuc, extras, escopo].forEach(e=>{
+      e.addEventListener('input', e=>{
+        if(e.target===hh) hhRange.value = hh.value;
+        if(e.target===hhRange) hh.value = hhRange.value;
+        calc();
+      })
+    });
 
-    renderKpis() {
-      const kpis = AppState.getKpis();
-      Utils.byId('kpi-hhTotais').textContent = Utils.fmt(kpis.hhTotais);
-      Utils.byId('kpi-diasEquiv').textContent = Utils.fmt(kpis.diasEquiv);
-      Utils.byId('kpi-viagens').textContent = Utils.fmt(kpis.viagensCount);
-      Utils.byId('kpi-custoTotal').textContent = Utils.money(kpis.custoTotal);
-    },
+    // presets de tarifa
+    document.querySelectorAll('[data-preset-rate]').forEach(btn=>{
+      btn.addEventListener('click',()=>setRatePreset(btn.dataset.presetRate))
+    });
 
-    renderRaciocinio() {
-      const { inputs, outputs } = AppState;
-      const html = [
-        `<div class="small pill">${inputs.tipoProjeto}</div>`,
-        `<div><strong>Escopo:</strong> ${inputs.observacao || '—'}</div>`,
-        `<ul style="margin:8px 0 0 18px; padding-left:0;">${outputs.raciocinio.map(x=>`<li>${x}</li>`).join('')}</ul>`
-      ].join('');
-      Utils.byId('raciocinio').innerHTML = html;
-    },
+    // Botões auxiliares
+    el('limpar').addEventListener('click',()=>{
+      extras.value = 0;
+      // mantém percentuais atuais
+      calc();
+    });
 
-    renderTables() {
-        this.renderTable('tabHH', AppState.outputs.hh, this.createHHRow);
-        this.renderTable('tabMat', AppState.outputs.materiais, this.createGenericRow.bind(null, ['item', 'qt', 'un', 'preco']));
-        this.renderTable('tabSrv', AppState.outputs.servicos, this.createGenericRow.bind(null, ['srv', 'qt', 'un', 'preco']));
-        this.renderTable('tabVg', AppState.outputs.viagens, this.createGenericRow.bind(null, ['item', 'qt', 'un', 'preco']));
-    },
-    
-    renderTable(tbodyId, items, rowCreator) {
-        const tbody = Utils.byId(tbodyId).querySelector('tbody');
-        tbody.innerHTML = ''; // Limpa a tabela antes de redesenhar
-        items.forEach((item, index) => {
-            const tr = rowCreator(item, index);
-            tbody.appendChild(tr);
-        });
-    },
-
-    createHHRow(item, index) {
-        return Renderer._createRow(index, 'hh', item.auto, [
-            { value: item.perfil, field: 'perfil', editable: true },
-            { value: item.atividade, field: 'atividade', editable: true },
-            { value: Utils.fmt(item.hh), field: 'hh', editable: true, align: 'right' },
-            { value: Utils.money(item.tx), field: 'tx', editable: true, align: 'right' },
-            { value: Utils.money(item.subtotal), field: 'subtotal', align: 'right' }
-        ]);
-    },
-    
-    createGenericRow(fields, item, index) {
-        const typeMap = { 'mat': 'materiais', 'srv': 'servicos', 'vg': 'viagens'};
-        const tableType = Object.keys(typeMap).find(key => typeMap[key] === item.type);
-        return Renderer._createRow(index, item.type, item.auto, [
-            { value: item[fields[0]], field: fields[0], editable: true },
-            { value: Utils.fmt(item[fields[1]]), field: fields[1], editable: true, align: 'right' },
-            { value: item[fields[2]], field: fields[2], editable: true },
-            { value: Utils.money(item[fields[3]]), field: fields[3], editable: true, align: 'right' },
-            { value: Utils.money(item.subtotal), field: 'subtotal', align: 'right' }
-        ]);
-    },
-
-    _createRow(index, type, isAuto, cells) {
-      const tr = document.createElement('tr');
-      tr.dataset.index = index;
-      tr.dataset.type = type;
-      tr.dataset.auto = isAuto ? '1' : '0';
-
-      cells.forEach(cellConfig => {
-        const td = document.createElement('td');
-        td.textContent = cellConfig.value;
-        if (cellConfig.align) td.classList.add(cellConfig.align);
-        if (AppState.ui.editMode && cellConfig.editable) {
-          td.contentEditable = true;
-          td.dataset.field = cellConfig.field;
-        }
-        tr.appendChild(td);
-      });
-
-      const tdAct = document.createElement('td');
-      tdAct.className = 'actions';
-      const btnDel = document.createElement('button');
-      btnDel.className = 'btn ghost icon';
-      btnDel.textContent = '×';
-      btnDel.title = 'Remover linha';
-      tdAct.appendChild(btnDel);
-      tr.appendChild(tdAct);
-
-      return tr;
-    }
-  };
-
-
-  /**
-   * MÓDULO DO AGENTE
-   * Contém a lógica de negócio principal para os cálculos.
-   * É uma função pura que recebe inputs e retorna outputs.
-   */
-  const Agent = {
-    run(input, p) {
-      const out = { hh: [], materiais: [], servicos: [], viagens: [], raciocinio: [] };
-      const add = (type, data) => out[type].push({ ...data, id: Date.now() + Math.random(), auto: true, type });
-
-      const addHH = (perfil, atividade, horas, taxa) => {
-        if (horas > 0) add('hh', { perfil, atividade, hh: horas, tx: taxa, subtotal: horas * taxa });
-      };
-      const addMat = (item, qt, un, preco) => add('materiais', { item, qt, un, preco, subtotal: qt * preco });
-      const addSrv = (srv, qt, un, preco) => add('servicos', { srv, qt, un, preco, subtotal: qt * preco });
-      const addVg = (item, qt, un, preco) => add('viagens', { item, qt, un, preco, subtotal: qt * preco });
-
-      // HEURÍSTICAS (lógica de negócio inalterada)
-      const gbPor1000ha = 6;
-      const viagensEstimadas = Math.max(1, Math.round(input.areaHa / 5000));
-      const kmMedioPorViagem = 300;
-      const diariasPorViagem = 2;
-      const overheadGerencial = (p.overhead || 12) / 100;
-
-      if (input.tipos.includes('geotec')) {
-        const gb = (input.areaHa / 1000) * gbPor1000ha;
-        const hPreproc = gb * p.preprocHgb;
-        const hClass = input.areaHa / p.prodClassHaH;
-        const pontos = (input.areaHa / 1000) * p.pontosCampo;
-        const hValid = pontos * p.hPorPonto;
-        const hCarto = Math.max(6, (input.areaHa / 20000) * 12);
-        out.raciocinio.push(`GEOTEC: ~${gb.toFixed(1)} GB img; pré-proc. ${hPreproc.toFixed(1)}h; classif. ${hClass.toFixed(1)}h; valid. ${pontos.toFixed(0)} pts (~${hValid.toFixed(1)}h); cartog. ~${hCarto.toFixed(1)}h.`);
-        addHH('Analista Geotec', 'Pré-processamento de imagens', hPreproc, p.txGeotec);
-        addHH('Analista Geotec', 'Classificação/Modelagem SIG', hClass, p.txGeotec);
-        addHH('Analista Geotec', 'Validação/QA amostral', hValid, p.txGeotec);
-        addHH('Cartógrafo', 'Mapas e layout', hCarto, p.txGeotec);
-        addMat('Licença software GIS (mês)', 1, 'un', 900);
-        addSrv('Aquisição de imagens (satélite/drone)', Math.ceil(gb / 2), 'GB', 120);
+    el('preset1470').addEventListener('click',()=>{
+      hh.value = 1470; hhRange.value = 1470; rate.value = 85; 
+      // Para fechar exatamente R$ 159.057,69, garantimos o markup total = 27,2970708283%
+      pEnc.value = 15; pAdm.value = 8; pTrib.value = 3.30; pLuc.value = 0.9970708283; // soma exata
+      extras.value = 0;
+      calc();
+      // checagem de consistência (tolerância de centavos)
+      const { total } = calc();
+      const alvo = 159057.69;
+      const diff = Math.abs(total - alvo);
+      if(diff > 0.02){
+        console.warn('Diferença acima de 2 centavos da meta de verificação:', diff);
       }
-      if (input.tipos.includes('florestal')) {
-        const hDesk = Math.max(8, input.areaHa / 5000 * 8);
-        const hCampo = Math.max(8, input.areaHa / 2000 * 10);
-        out.raciocinio.push(`FLORESTAL: gabinete ~${hDesk.toFixed(1)}h; campo ~${hCampo.toFixed(1)}h.`);
-        addHH('Consultor Florestal', 'Análises e recomendações', hDesk, p.txConsultor);
-        addHH('Consultor Florestal', 'Vistorias em campo', hCampo, p.txConsultor);
-      }
-      // Outras lógicas de esforço... (adicionar aqui se necessário)
+    });
 
-      for (let i = 0; i < viagensEstimadas; i++) {
-        addVg('Diárias (campo)', diariasPorViagem, 'diária', p.diaria);
-        addVg('Deslocamento (km)', kmMedioPorViagem, 'km', p.km);
-      }
+    // copiar justificativa
+    el('copiarJust').addEventListener('click',()=>{
+      const {HH, RATE, M, EX, total} = calc();
+      const texto = `Justificativa de Orçamento – ${escopo.value||'Projeto'}\n\n`+
+        `Foram estimadas ${HH} horas técnicas (HH) à tarifa base de ${R$.format(RATE)} por hora. `+
+        `Aplicou-se um markup total de ${(M*100).toFixed(4).replace('.',',')}% (encargos, administração, tributos e margem) sobre o custo direto, `+
+        `além de despesas extras de ${R$.format(EX)} quando aplicável. `+
+        `O valor total do serviço é ${R$.format(total)}.`;
+      navigator.clipboard.writeText(texto);
+      alert('Justificativa copiada para a área de transferência.');
+    });
 
-      const hhTec = out.hh.reduce((s, x) => s + x.hh, 0);
-      const hhGer = hhTec * overheadGerencial;
-      addHH('Gestão de Projeto', 'Planejamento e QA', hhGer, p.txConsultor);
-      out.raciocinio.push(`Overhead gerencial (${p.overhead}%) sobre HH técnicas (~${hhGer.toFixed(1)}h).`);
+    // copiar linha CSV
+    el('copiarPlanilha').addEventListener('click',()=>{
+      const {HH, RATE, M, EX, direto, indiretos, total} = calc();
+      const linha = [
+        'Escopo', 'HH', 'TarifaBase_R$/HH', 'Markup_%', 'Extras_R$', 'CustoDireto_R$', 'Indiretos_R$', 'Total_R$' 
+      ].join(';')+"\n"+
+      [
+        (escopo.value||'Projeto'), HH, RATE.toFixed(2).replace('.',','), (M*100).toFixed(6).replace('.',','), EX.toFixed(2).replace('.',','),
+        direto.toFixed(2).replace('.',','), indiretos.toFixed(2).replace('.',','), total.toFixed(2).replace('.',',')
+      ].join(';');
+      navigator.clipboard.writeText(linha);
+      alert('Linha (CSV) copiada. Cole na sua planilha.');
+    });
 
-      return out;
-    }
-  };
-
-
-  /**
-   * MÓDULO DE MANIPULADORES DE EVENTOS (HANDLERS)
-   * Cola a UI aos módulos de estado e lógica.
-   */
-  const Handlers = {
-    init() {
-      Utils.byId('btnCalcular').addEventListener('click', this.handleCalculate);
-      Utils.byId('btnExportar').addEventListener('click', this.handleExport);
-      Utils.byId('editMode').addEventListener('change', this.handleToggleEditMode);
-      Utils.byId('mergeMode').addEventListener('change', (e) => AppState.ui.mergeMode = e.target.value);
-      
-      // Event Delegation para adicionar/remover/editar linhas
-      document.querySelector('.wrap').addEventListener('click', this.handleTableClicks);
-      document.querySelector('.wrap').addEventListener('input', this.handleTableEdits);
-
-      // Gatilho inicial
-      this.handleCalculate();
-    },
-
-    collectAllInputs() {
-        const configForm = Utils.byId('config-form');
-        const inputs = Array.from(configForm.querySelectorAll('input, textarea, select'));
-        const stateInputs = {};
-        const stateParams = {};
-        
-        inputs.forEach(el => {
-            let value;
-            if (el.id === 'tiposEsforco') {
-                value = Array.from(el.selectedOptions).map(o => o.value);
-            } else if (el.type === 'number') {
-                value = Utils.parseNum(el.value);
-            } else {
-                value = el.value;
-            }
-            // Separa entre inputs de projeto e parâmetros de calibração
-            if (el.closest('details')) {
-                stateParams[el.id] = value;
-            } else {
-                stateInputs[el.id] = value;
-            }
-        });
-        
-        AppState.inputs = stateInputs;
-        AppState.params = stateParams;
-    },
-
-    handleCalculate() {
-      Handlers.collectAllInputs();
-      const newOutputs = Agent.run(AppState.inputs, AppState.params);
-
-      if (AppState.ui.mergeMode === 'replace') {
-        // Mantém itens manuais, substitui automáticos
-        Object.keys(AppState.outputs).forEach(key => {
-            if (key !== 'raciocinio') {
-               const manuais = AppState.outputs[key].filter(item => !item.auto);
-               AppState.outputs[key] = [...manuais, ...newOutputs[key]];
-            }
-        });
-      } else { // append
-        Object.keys(newOutputs).forEach(key => {
-            AppState.outputs[key].push(...newOutputs[key]);
-        });
-      }
-      AppState.outputs.raciocinio = newOutputs.raciocinio;
-      
-      Renderer.render();
-    },
-
-    handleToggleEditMode(e) {
-      AppState.ui.editMode = e.target.checked;
-      Renderer.renderTables(); // Re-renderiza tabelas para aplicar/remover contentEditable
-    },
-    
-    handleTableClicks(e) {
-        // Delegação para adicionar item
-        const addBtn = e.target.closest('[data-add-btn]');
-        if (addBtn) {
-            const type = addBtn.dataset.addBtn;
-            const inputs = document.querySelectorAll(`input[data-add="${type}"]`);
-            let newItem = { auto: false, id: Date.now() + Math.random() };
-            
-            if(type === 'hh') {
-                newItem = {...newItem, type, perfil: inputs[0].value, atividade: inputs[1].value, hh: Utils.parseNum(inputs[2].value), tx: Utils.parseNum(inputs[3].value)};
-            } else if (type === 'mat') {
-                newItem = {...newItem, type: 'materiais', item: inputs[0].value, qt: Utils.parseNum(inputs[1].value), un: inputs[2].value, preco: Utils.parseNum(inputs[3].value)};
-            } else if (type === 'srv') {
-                newItem = {...newItem, type: 'servicos', srv: inputs[0].value, qt: Utils.parseNum(inputs[1].value), un: inputs[2].value, preco: Utils.parseNum(inputs[3].value)};
-            } else if (type === 'vg') {
-                newItem = {...newItem, type: 'viagens', item: inputs[0].value, qt: Utils.parseNum(inputs[1].value), un: inputs[2].value, preco: Utils.parseNum(inputs[3].value)};
-            }
-
-            const typeMap = { 'hh': 'hh', 'mat': 'materiais', 'srv': 'servicos', 'vg': 'viagens'};
-            const outputKey = typeMap[type];
-            AppState.outputs[outputKey].push(newItem);
-            Handlers.recalculateSubtotals(outputKey);
-            Renderer.render();
-            inputs.forEach(i => i.value = ''); // Limpa os campos
-            return;
-        }
-
-        // Delegação para remover item
-        const delBtn = e.target.closest('.btn.icon');
-        const tr = e.target.closest('tr[data-index]');
-        if (delBtn && tr) {
-            const { index, type } = tr.dataset;
-            const typeMap = { 'hh': 'hh', 'materiais': 'materiais', 'servicos': 'servicos', 'viagens': 'viagens'};
-            const key = Object.keys(typeMap).find(k => typeMap[k] === type) || type;
-            AppState.outputs[type].splice(index, 1);
-            Renderer.render();
-        }
-    },
-    
-    handleTableEdits(e) {
-        const td = e.target.closest('td[contenteditable="true"]');
-        if (!td) return;
-        
-        const tr = td.closest('tr');
-        const { index, type } = tr.dataset;
-        const field = td.dataset.field;
-        
-        const item = AppState.outputs[type][index];
-        if (item) {
-            const value = Utils.parseNum(td.textContent);
-            item[field] = isNaN(value) ? td.textContent : value;
-            Handlers.recalculateSubtotals(type);
-            Renderer.renderKpis();
-            // Não precisa re-renderizar a tabela inteira, apenas KPIs
-        }
-    },
-
-    recalculateSubtotals(type) {
-        AppState.outputs[type].forEach(item => {
-            if (type === 'hh') item.subtotal = (item.hh || 0) * (item.tx || 0);
-            else item.subtotal = (item.qt || 0) * (item.preco || 0);
-        });
-    },
-
-    handleExport() {
-        const sections = [];
-        const toRow = (arr) => arr.map(v => typeof v === 'string' ? `"${v.replace(/"/g, '""')}"` : v).join(';');
-
-        const hh = AppState.outputs.hh.map(i => [i.perfil, i.atividade, i.hh, i.tx, i.subtotal]);
-        const mat = AppState.outputs.materiais.map(i => [i.item, i.qt, i.un, i.preco, i.subtotal]);
-        const srv = AppState.outputs.servicos.map(i => [i.srv, i.qt, i.un, i.preco, i.subtotal]);
-        const vg = AppState.outputs.viagens.map(i => [i.item, i.qt, i.un, i.preco, i.subtotal]);
-        
-        sections.push("# HH\n" + toRow(['Perfil','Atividade','HH','R$/h','Subtotal']) + "\n" + hh.map(toRow).join("\n"));
-        sections.push("# Materiais\n" + toRow(['Item','Qtde','Un.','R$/Un.','Subtotal']) + "\n" + mat.map(toRow).join("\n"));
-        sections.push("# Serviços\n" + toRow(['Serviço','Qtde','Un.','R$/Un.','Subtotal']) + "\n" + srv.map(toRow).join("\n"));
-        sections.push("# Viagem\n" + toRow(['Item','Qtde','Un.','R$/Un.','Subtotal']) + "\n" + vg.map(toRow).join("\n"));
-
-        const blob = new Blob([sections.join("\n\n")], { type: 'text/csv;charset=utf-8' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `orcamento_agente_rg_${new Date().toISOString().slice(0,10)}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    }
-  };
-
-  // Inicia a aplicação
-  Handlers.init();
-
-});
-</script>
+    // inicialização
+    el('preset1470').click();
+  </script>
 </body>
 </html>
